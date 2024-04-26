@@ -1,10 +1,5 @@
 from cyto_dl.api.model import CytoDLModel
 
-# define some output folder to save training runs to
-# output_folder = ''
-# cyto_dl_seg_folder = '' #path to segmentation folder in cyto-dl/data/example_experiment_data
-
-
 model = CytoDLModel()
 model.load_default_experiment(
     "segmentation_plugin",
@@ -14,10 +9,11 @@ model.load_default_experiment(
 # mimic overrides done in ml-segmenter
 overrides = dict()
 overrides["trainer.accelerator"] = "cpu"
-overrides["trainer.max_epochs"] = 10
-overrides["data.path"] = cyto_dl_seg_folder
-overrides["data._aux.patch_shape"] = [16, 64, 64]
 overrides["spatial_dims"] = 3
+overrides["trainer.max_epochs"] = 10
+overrides["data.path"] = ""
+overrides["data._aux.patch_shape"] = [16, 64, 64]
+overrides["model._aux.filters"] = [16, 32, 64]
 model.override_config(overrides)
 
-model.train(run_async=True)
+model.train()
